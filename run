@@ -1,0 +1,5 @@
+#!/bin/bash
+
+DIR="/c/Users/attal/Steam/steamapps/common/Quake 4"
+cd "$DIR"
+sudo "./Quake4"

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+CODEDIR="/c/Users/attal/Documents/School/IT266/quake4"
+DIR="/c/Users/attal/Steam/steamapps/common/Quake 4"
+cd "$DIR"
+sudo gdb -d $CODEDIR "./Quake4"
