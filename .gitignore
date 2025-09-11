@@ -1,0 +1,9 @@
+Makefile
+run
+Backup
+UpgradeLog.htm
+.vs
+idlib/.vs
+game.vcxproj*
+idlib.vcxproj*
+mpgame.vcxproj*
