@@ -7,4 +7,5 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+rm "log.txt"
 exit 0

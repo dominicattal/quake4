@@ -9,6 +9,8 @@
 #include "../Projectile.h"
 #endif
 
+#define BLASTER_SPARM_CHARGEGLOW    6
+
 class rvWeaponRocketLauncher : public rvWeapon {
 public:
 
@@ -36,6 +38,8 @@ protected:
 
 	void					SetRocketState		( const char* state, int blendFrames );
 
+    bool                    UpdateAttack        ( void );
+
 	rvClientEntityPtr<rvClientEffect>	guideEffect;
 	idList< idEntityPtr<idEntity> >		guideEnts;
 	float								guideSpeedSlow;
@@ -51,10 +55,20 @@ protected:
 
 private:
 
+	int					chargeTime;
+	int					chargeDelay;
+	idVec2				chargeGlow;
+	bool				fireForced;
+	int					fireHeldTime;
+    bool                liftedTrigger;
+    bool                charged;
+
 	stateResult_t		State_Idle				( const stateParms_t& parms );
 	stateResult_t		State_Fire				( const stateParms_t& parms );
 	stateResult_t		State_Raise				( const stateParms_t& parms );
 	stateResult_t		State_Lower				( const stateParms_t& parms );
+	stateResult_t		State_Charge			( const stateParms_t& parms );
+	stateResult_t		State_Charged			( const stateParms_t& parms );
 	
 	stateResult_t		State_Rocket_Idle		( const stateParms_t& parms );
 	stateResult_t		State_Rocket_Reload		( const stateParms_t& parms );
@@ -103,6 +117,13 @@ void rvWeaponRocketLauncher::Spawn ( void ) {
 	guideSpeedSlow = guideSpeedFast * f;
 	
 	reloadRate = SEC2MS ( spawnArgs.GetFloat ( "reloadRate", ".8" ) );
+
+    chargeTime = SEC2MS ( spawnArgs.GetFloat ( "chargeTime" ) );
+    chargeDelay = SEC2MS ( spawnArgs.GetFloat ( "chargeDelay" ) );
+    fireHeldTime = 0;
+    fireForced = false;
+    liftedTrigger = true;
+    charged = false;
 	
 	guideAccelTime = SEC2MS ( spawnArgs.GetFloat ( "lockAccelTime", ".25" ) );
 	
@@ -319,6 +340,7 @@ void rvWeaponRocketLauncher::PostSave ( void ) {
 CLASS_STATES_DECLARATION ( rvWeaponRocketLauncher )
 	STATE ( "Idle",				rvWeaponRocketLauncher::State_Idle)
 	STATE ( "Fire",				rvWeaponRocketLauncher::State_Fire )
+	STATE ( "Charge",			rvWeaponRocketLauncher::State_Charge )
 	STATE ( "Raise",			rvWeaponRocketLauncher::State_Raise )
 	STATE ( "Lower",			rvWeaponRocketLauncher::State_Lower )
 
@@ -424,13 +446,57 @@ stateResult_t rvWeaponRocketLauncher::State_Idle( const stateParms_t& parms ) {
 				SetState ( "Lower", 4 );
 				return SRESULT_DONE;
 			}		
-			if ( gameLocal.time > nextAttackTime && wsfl.attack && ( gameLocal.isClient || AmmoInClip ( ) ) ) {
-				SetState ( "Fire", 2 );
+            if ( !liftedTrigger && !wsfl.attack ) {
+                liftedTrigger = true;
+            }
+			if ( liftedTrigger && gameLocal.time > nextAttackTime && wsfl.attack && ( gameLocal.isClient || AmmoInClip ( ) ) ) {
+				SetState ( "Charge", 2 );
+                liftedTrigger = false;
+                fireHeldTime = gameLocal.time;
 				return SRESULT_DONE;
 			}
 			return SRESULT_WAIT;
 	}
 	return SRESULT_ERROR;
+}
+
+/*
+================
+rvWeaponBlaster::State_Charge
+================
+*/
+stateResult_t rvWeaponRocketLauncher::State_Charge ( const stateParms_t& parms ) {
+	enum {
+		CHARGE_INIT,
+		CHARGE_WAIT,
+	};	
+	switch ( parms.stage ) {
+		case CHARGE_INIT:
+			viewModel->SetShaderParm ( BLASTER_SPARM_CHARGEGLOW, chargeGlow[0] );
+			StartSound ( "snd_charge", SND_CHANNEL_ITEM, 0, false, NULL );
+			PlayCycle( ANIMCHANNEL_ALL, "charging", parms.blendFrames );
+			return SRESULT_STAGE ( CHARGE_WAIT );
+			
+		case CHARGE_WAIT:	
+			if ( gameLocal.time - fireHeldTime < chargeTime ) {
+				float f;
+				f = (float)(gameLocal.time - fireHeldTime) / (float)chargeTime;
+				f = chargeGlow[0] + f * (chargeGlow[1] - chargeGlow[0]);
+				f = idMath::ClampFloat ( chargeGlow[0], chargeGlow[1], f );
+				viewModel->SetShaderParm ( BLASTER_SPARM_CHARGEGLOW, 1.0f );
+				
+				if ( !wsfl.attack ) {
+					SetState ( "Fire", 0 );
+					return SRESULT_DONE;
+				}
+				
+				return SRESULT_WAIT;
+			} 
+            charged = true;
+            SetState ( "Fire", 4 );
+			return SRESULT_DONE;
+	}
+	return SRESULT_ERROR;	
 }
 
 /*
@@ -446,16 +512,42 @@ stateResult_t rvWeaponRocketLauncher::State_Fire ( const stateParms_t& parms ) {
 	switch ( parms.stage ) {
 		case STAGE_INIT:
 			nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));		
-			Attack ( false, 1, spread, 0, 1.0f );
+            idPlayer* player;
+            player = gameLocal.GetLocalPlayer();
+
+			//make sure the player isn't looking at a gui first
+			//if( player && player->GuiActive() )	{
+			//	fireHeldTime = 0;
+			//	SetState ( "Lower", 0 );
+			//	return SRESULT_DONE;
+			//}
+
+			//if( player && !player->CanFire() )	{
+			//	fireHeldTime = 0;
+			//	SetState ( "Idle", 4 );
+			//	return SRESULT_DONE;
+			//}
+
+            if ( charged ) {
+                Attack ( false, 1, spread, 0, 100.0f );
+            } else {
+                Attack ( true, 1, spread, 0, 1.0f );
+            }
+            fireHeldTime = 0;
+            charged = false;
 			PlayAnim ( ANIMCHANNEL_LEGS, "fire", parms.blendFrames );	
 			return SRESULT_STAGE ( STAGE_WAIT );
 	
 		case STAGE_WAIT:			
-			if ( wsfl.attack && gameLocal.time >= nextAttackTime && ( gameLocal.isClient || AmmoInClip ( ) ) && !wsfl.lowerWeapon ) {
-				SetState ( "Fire", 0 );
-				return SRESULT_DONE;
-			}
-			if ( gameLocal.time > nextAttackTime && AnimDone ( ANIMCHANNEL_LEGS, 4 ) ) {
+			//if ( wsfl.attack && gameLocal.time >= nextAttackTime && ( gameLocal.isClient || AmmoInClip ( ) ) && !wsfl.lowerWeapon ) {
+			//	SetState ( "Fire", 0 );
+			//	return SRESULT_DONE;
+			//}
+			//if ( gameLocal.time > nextAttackTime && AnimDone ( ANIMCHANNEL_LEGS, 4 ) ) {
+			//	SetState ( "Idle", 4 );
+			//	return SRESULT_DONE;
+			//}
+			if ( AnimDone ( ANIMCHANNEL_ALL, 4 ) ) {
 				SetState ( "Idle", 4 );
 				return SRESULT_DONE;
 			}

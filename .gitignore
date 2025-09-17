@@ -1,6 +1,7 @@
 Backup
 UpgradeLog.htm
 .vs
+log.txt
 idlib/.vs
 game.vcxproj*
 idlib.vcxproj*
