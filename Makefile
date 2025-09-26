@@ -9,3 +9,4 @@ release:
 	@bash "build.sh"
 	@echo "Zipping"
 	@zip -j "$(MODDIR)/game000.pk4" "$(MODDIR)/binary.conf" "$(BUILDDIR)/Gamex86.dll"
+	@cp -r "def" "$(MODDIR)"
