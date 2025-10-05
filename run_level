@@ -2,4 +2,4 @@
 
 source .env
 cd "$QUAKEDIR"
-sudo "./Quake4" +set fs_game "$MODNAME"
+sudo "./Quake4" +editor

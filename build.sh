@@ -1,6 +1,6 @@
 #!/bin/bash
 
-devenv q4sdk.sln -build "Release" -project game -projectconfig "Release" -out "log.txt"
+devenv q4sdk.sln -build "$1" -project game -projectconfig "$1" -out "log.txt"
 if [ $? -ne 0 ]; then
     cat "log.txt"
     rm "log.txt"

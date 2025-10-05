@@ -1,12 +1,32 @@
-BUILD=Release
-BUILDDIR=/c/Users/attal/Documents/School/IT266/Win32/Release
-MODDIR=/c/Users/attal/Steam/steamapps/common/Quake 4/rocket
+include .env
+
+MODDIR=$(QUAKEDIR)/$(MODNAME)
 
 all: release
 
-release:
+release: moddir
 	@echo "Building"
-	@bash "build.sh"
+	@bash "build.sh" "Release"
 	@echo "Zipping"
-	@zip -j "$(MODDIR)/game000.pk4" "$(MODDIR)/binary.conf" "$(BUILDDIR)/Gamex86.dll"
-	@cp -r "def" "$(MODDIR)"
+	@zip -j "$(MODDIR)/game000.pk4" "binary.conf" "$(BUILDDIR)/Gamex86.dll"
+	@zip -r "$(MODDIR)/pak001.pk4" "def" "guis"
+
+debug: moddir
+	@echo "Building"
+	@bash "build.sh" "Debug"
+	@echo "Zipping"
+	@zip -j "$(MODDIR)/game000.pk4" "binary.conf" "$(BUILDDIR)/Gamex86.dll"
+	@zip -jr "$(MODDIR)/pak001.pk4" "def" "guis"
+
+moddir:
+	@mkdir -p $(MODDIR)
+
+env:
+	@echo MODNAME=$(MODNAME)
+	@echo QUAKEDIR=$(QUAKEDIR)
+	@echo BUILDDIR=$(MODDIR)
+	@echo MODDIR=$(BUILDDIR)
+
+
+.PHONY: release debug
+
