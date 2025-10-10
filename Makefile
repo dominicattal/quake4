@@ -4,19 +4,17 @@ MODDIR=$(QUAKEDIR)/$(MODNAME)
 
 all: release
 
-release: moddir
+build:
 	@echo "Building"
 	@bash "build.sh" "Release"
 	@echo "Zipping"
-	@zip -j "$(MODDIR)/game000.pk4" "binary.conf" "$(BUILDDIR)/Gamex86.dll"
-	@zip -r "$(MODDIR)/pak001.pk4" "def" "guis"
 
-debug: moddir
-	@echo "Building"
-	@bash "build.sh" "Debug"
-	@echo "Zipping"
+copy:
 	@zip -j "$(MODDIR)/game000.pk4" "binary.conf" "$(BUILDDIR)/Gamex86.dll"
-	@zip -jr "$(MODDIR)/pak001.pk4" "def" "guis"
+	@zip -r "$(MODDIR)/pak001.pk4" "def" "guis" "maps"
+	cp -r "strings" "$(MODDIR)" 
+
+release: moddir build copy
 
 moddir:
 	@mkdir -p $(MODDIR)

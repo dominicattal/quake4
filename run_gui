@@ -2,4 +2,4 @@
 
 source .env
 cd "$QUAKEDIR"
-sudo "./Quake4" +editguis 
+sudo "./Quake4" +fs_game "midterm" +editguis

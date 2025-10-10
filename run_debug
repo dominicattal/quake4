@@ -1,0 +1,5 @@
+#!/bin/bash
+
+source .env
+cd "$QUAKEDIR"
+sudo gdb "./Quake4"
