@@ -1903,13 +1903,14 @@ void main()
 	// filters:
 	//	skip1		- skip the main intro but play the wake-up scene
 	//	skipall		- just skip it all.
-	thread checkStartCinematics();
+    // dont do any cinematics for mod
+	// thread checkStartCinematics();
 
 	// TEMP: FIXME: setting shader parms on cortez door
 	//$normalDoor_top_4.setShaderParm( 7 , 0 );
 	//$normalDoor_frame_4.setShaderParm( 7 , 0 );
 	
-	$player1.setHealth( 72 );
+	$player1.setHealth( 100 );
 }
 
 }	//end namespace : map_airdefense1

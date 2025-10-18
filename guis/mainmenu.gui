@@ -1011,7 +1011,7 @@ windowDef Desktop
 				rect	36,184,193,23
 				visible	1
 				forecolor	1,1,1,0.8
-				text	"CLASS 1"
+				text	"GUNNER"
 				textscale	0.31
 				font	"fonts/marine"
 			}
@@ -1020,7 +1020,7 @@ windowDef Desktop
 				rect	36,214,193,23
 				visible	1
 				forecolor	1,1,1,0.8
-				text	"CLASS 2"
+				text	"SNIPER"
 				textscale	0.31
 				font	"fonts/marine"
 			}
@@ -1029,7 +1029,7 @@ windowDef Desktop
 				rect	36,244,193,23
 				visible	1
 				forecolor	1,1,1,0.8
-				text	"CLASS 3"
+				text	"SCOUT"
 				textscale	0.31
 				font	"fonts/marine"
 			}
@@ -1107,7 +1107,7 @@ windowDef Desktop
 				rect	36,274,193,23
 				visible	1
 				forecolor	1,1,1,0.8
-				text	"CLASS 4"
+				text	"ASSASSIN"
 				textscale	0.31
 				font	"fonts/marine"
 			}
@@ -1116,7 +1116,7 @@ windowDef Desktop
 				rect	36,304,193,23
 				visible	1
 				forecolor	1,1,1,0.8
-				text	"CLASS 5"
+				text	"TANK"
 				textscale	0.31
 				font	"fonts/marine"
 			}
@@ -18047,7 +18047,7 @@ windowDef Desktop
 	}
 	windowDef p_btns
 	{
-		rect	-5,6,640,480
+		rect	-9,6,640,480
 		visible	1
 
 		onNamedEvent showMain {
@@ -18488,7 +18488,7 @@ windowDef Desktop
 				set "new_b_skill3::visible" "1" ;
 				set "new_b_skill4::visible" "1" ;
 				set "new_b_skill5::visible" "0" ;
-            }
+			}
 			set "new_b_start::visible" "1" ;
 			set "new_b_back::visible" "1" ;
 		}

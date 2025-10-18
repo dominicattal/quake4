@@ -1173,7 +1173,7 @@ idVarDef *idCompiler::LookupDef( const char *name, const idVarDef *baseobj ) {
 
 				field = LookupDef( name, scope->scope->TypeDef()->def );
 				if ( !field ) {
-					Error( "Unknown value \"%s\"", name );
+					Error( "Unknown value def \"%s\"", name );
 				}
 
 				// type check
@@ -1260,7 +1260,7 @@ idVarDef *idCompiler::ParseValue( void ) {
 		if ( basetype ) {
 			Error( "%s is not a member of %s", name.c_str(), basetype->TypeDef()->Name() );
 		} else {
-			Error( "Unknown value \"%s\"", name.c_str() );
+			Error( "Unknown value stupid \"%s\"", name.c_str() );
 		}
 	// if namespace, then look up the variable in that namespace
 	} else if ( def->Type() == ev_namespace ) {
