@@ -1,13 +1,29 @@
 namespace map_airdefense	{
-    vector positions[10];
+
+    // sys.random()
+
+    float nextSpawnTime = 0;
+
+    void spawnStrogg()
+    {
+        if (sys.getTime() > nextSpawnTime) {
+            vector v;
+            v_x = -269.3;
+            v_y = -264.48;
+            v_z = 228.25;
+            sys.setSpawnArg("origin", v);
+            entity ent = sys.spawn("monster_strogg_marine");
+            sys.print("test");
+            nextSpawnTime = sys.getTime() + 3;
+        }
+    }
+
+    void test()
+    {
+        sys.println("test");
+    }
+
     void main()
     {
-        vector v;
-        v_x = -269.3;
-        v_y = -264.48;
-        v_z = 228.25;
-        sys.setSpawnArg("origin", v);
-        entity ent = sys.spawn("monster_strogg_marine");
-        sys.print("test");
     }
 }

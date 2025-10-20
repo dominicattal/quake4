@@ -9275,6 +9275,8 @@ void idPlayer::LoadDeferredModel( void ) {
 	}
 }
 
+#include "Midterm.cpp"
+
 /*
 ==============
 idPlayer::Think
@@ -9284,6 +9286,8 @@ Called every tic for each player
 */
 void idPlayer::Think( void ) {
 	renderEntity_t *headRenderEnt;
+
+    MidtermUpdate();
  
 	if ( talkingNPC ) {
 		if ( !talkingNPC.IsValid() ) {
