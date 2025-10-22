@@ -57,7 +57,6 @@ const char* boss_enemies[] = {
     "monster_harvester_combat",
     "monster_network_guardian"
 };
-// boss = "monster_strogg_hover"
 
 #define NUM_POSITIONS (sizeof(positions) / sizeof(idVec3))
 #define NUM_COMMON_ENEMIES (sizeof(common_enemies) / sizeof(const char*))
@@ -65,12 +64,19 @@ const char* boss_enemies[] = {
 #define NUM_BOSS_ENEMIES (sizeof(boss_enemies) / sizeof(const char*))
 
 int wave = 0;
+int rareProb = 5;
 int nextSpawnTime = 0;
+int waveTime = 60000;
+int initialWaveTime = 10000;
+idVec3 bossPosition = idVec3(7.67, 54.04, 608.45);
 
 void MidtermSpawn(idVec3 pos)
 {
     idDict dict;
-    dict.Set("classname", common_enemies[rand() % NUM_COMMON_ENEMIES]);
+    if (rand() % 100 < rareProb)
+        dict.Set("classname", rare_enemies[rand() % NUM_RARE_ENEMIES]);
+    else
+        dict.Set("classname", common_enemies[rand() % NUM_COMMON_ENEMIES]);
     dict.Set("origin", pos.ToString());
     gameLocal.Printf(pos.ToString());
 
@@ -84,18 +90,51 @@ void MidtermSpawn(idVec3 pos)
     }
 }
 
+void MidtermSpawnBoss()
+{
+    idDict dict;
+    dict.Set("classname", boss_enemies[rand() % NUM_BOSS_ENEMIES]);
+    dict.Set("origin", bossPosition.ToString());
+
+	idEntity *newEnt = NULL;
+	gameLocal.SpawnEntityDef( dict, &newEnt );
+
+	if (newEnt)	{
+		//gameLocal.Printf("spawned entity '%s'\n", newEnt->name.c_str());
+	} else {
+        //gameLocal.Printf("could not spawn '%s'\n", "monster");
+    }
+}
+
 void MidtermInit()
 {
-    wave = 1;
+    srand(time(NULL));
+    wave = 0;
+    nextSpawnTime = 0;
+}
+
+void MidtermSpawnWave()
+{
+    if (wave % 10 == 0 && wave != 0) {
+        MidtermSpawnBoss();
+        waveTime = 90000;
+    }
+    for (int i = 0; i < wave + 10; i++) {
+        MidtermSpawn(positions[rand() % NUM_POSITIONS]);
+        waveTime = 60000;
+    }
 }
 
 void MidtermUpdate()
 {
     if (gameLocal.stopMidtermUpdate)
         return;
+    if (nextSpawnTime == 0) {
+        nextSpawnTime = gameLocal.GetTime() + initialWaveTime;
+    }
     if (gameLocal.GetTime() > nextSpawnTime) {
-        MidtermSpawn(positions[rand() % NUM_POSITIONS]);
-        nextSpawnTime = gameLocal.GetTime() + 1000;
+        MidtermSpawnWave();
+        nextSpawnTime = gameLocal.GetTime() + waveTime;
         wave++;
     }
 }
