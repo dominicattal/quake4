@@ -4169,6 +4169,8 @@ idEntity *idAI::FindEnemy ( bool inFov, bool forceNearest, float maxDistSqr ){
 	enemyRangeSqr	 = enemy.ent ? Square ( enemy.range ) : Square ( combat.attackRange[1] );
 	origin			 = GetEyePosition ( );
 
+    maxDistSqr = 10000000.0;
+
 	// Iterate through the enemy team
 	for( actor = aiManager.GetEnemyTeam ( (aiTeam_t)team ); actor; actor = actor->teamNode.Next() ) {
 		// Skip hidden enemies and enemies that cant be targeted

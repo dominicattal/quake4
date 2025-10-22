@@ -68,6 +68,7 @@ int rareProb = 5;
 int nextSpawnTime = 0;
 int waveTime = 60000;
 int initialWaveTime = 10000;
+int stroggHearts = 0;
 idVec3 bossPosition = idVec3(7.67, 54.04, 608.45);
 
 void MidtermSpawn(idVec3 pos)
@@ -111,6 +112,7 @@ void MidtermInit()
     srand(time(NULL));
     wave = 0;
     nextSpawnTime = 0;
+    stroggHearts = 0;
 }
 
 void MidtermSpawnWave()
