@@ -157,7 +157,7 @@ void MidtermUpdateHUD(idUserInterface* hud)
 void MidtermEnemyKilled(idEntity* enemy)
 {
     const char* name = enemy->name.c_str();
-    gameLocal.Printf("%d\n", enemy->stroggHearts);
+    stroggHearts += enemy->stroggHearts;
 }
 
 void MidtermPause(const idCmdArgs &args)

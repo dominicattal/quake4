@@ -4,6 +4,8 @@ windowDef Desktop
 	visible	1
 	nocursor	1
 	menugui	0
+	)	)
+	/	2
 	definevec4	"ws_on"	1,0.5,0,1
 	definevec4	"ws_off"	0.658,0.639,0.376,0.6
 	definevec4	"ws_glowon"	0.7,0.8,0.5,1
@@ -21,7 +23,7 @@ windowDef Desktop
 	float	"teamstrogg"	0
 	float	"hidden"	0
 	definefloat	"showGunInfo"	1
-	definefloat	"switchLeft"	(640-((gui::weaponcount*30)-2))/2
+	definefloat	"switchLeft"	(640-((gui::weaponcount*30)-2
 
 	onInit {
 		namedEvent "updateHealth";
@@ -2137,10 +2139,19 @@ windowDef Desktop
 	{
 		rect	0,0,100,100
 		visible	1
-		backcolor	0,0.247,0.498,1
+		backcolor	0,0.243,0.494,0
 		forecolor	1,1,1,1
 		text	"gui::current_wave"
 		textscale	1
 		textstyle	2
+	}
+	windowDef hearts
+	{
+		rect	539,1,100,100
+		visible	1
+		forecolor	1,0,0,1
+		text	"gui::strogg_hearts"
+		textscale	1
+		textalign	2
 	}
 }
