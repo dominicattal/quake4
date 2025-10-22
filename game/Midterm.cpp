@@ -75,7 +75,8 @@ idVec3 bossPosition = idVec3(7.67, 54.04, 608.45);
 void MidtermSpawn(idVec3 pos)
 {
     idDict dict;
-    if (rand() % 100 < rareProb)
+    bool rare = rand() % 100 < rareProb;
+    if (rare)
         dict.Set("classname", rare_enemies[rand() % NUM_RARE_ENEMIES]);
     else
         dict.Set("classname", common_enemies[rand() % NUM_COMMON_ENEMIES]);
@@ -87,6 +88,10 @@ void MidtermSpawn(idVec3 pos)
 
 	if (newEnt)	{
 		gameLocal.Printf("spawned entity '%s'\n", newEnt->name.c_str());
+        if (rare)
+            newEnt->stroggHearts = 5;
+        else
+            newEnt->stroggHearts = 1;
 	} else {
         gameLocal.Printf("could not spawn '%s'\n", "monster");
     }
@@ -102,6 +107,7 @@ void MidtermSpawnBoss()
 	gameLocal.SpawnEntityDef( dict, &newEnt );
 
 	if (newEnt)	{
+        newEnt->stroggHearts = 50;
 		//gameLocal.Printf("spawned entity '%s'\n", newEnt->name.c_str());
 	} else {
         //gameLocal.Printf("could not spawn '%s'\n", "monster");
@@ -148,10 +154,10 @@ void MidtermUpdateHUD(idUserInterface* hud)
     hud->SetStateInt("strogg_hearts", stroggHearts);
 }
 
-void MidtermEnemyKilled(idEntity* attacker)
+void MidtermEnemyKilled(idEntity* enemy)
 {
-    const char* name = attacker->name.c_str();
-    gameLocal.Printf("AAAA\n");
+    const char* name = enemy->name.c_str();
+    gameLocal.Printf("%d\n", enemy->stroggHearts);
 }
 
 void MidtermPause(const idCmdArgs &args)
