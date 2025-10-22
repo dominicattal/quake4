@@ -69,6 +69,7 @@ int nextSpawnTime = 0;
 int waveTime = 60000;
 int initialWaveTime = 10000;
 int stroggHearts = 0;
+bool pause = false;
 idVec3 bossPosition = idVec3(7.67, 54.04, 608.45);
 
 void MidtermSpawn(idVec3 pos)
@@ -129,7 +130,7 @@ void MidtermSpawnWave()
 
 void MidtermUpdate()
 {
-    if (gameLocal.stopMidtermUpdate)
+    if (pause)
         return;
     if (nextSpawnTime == 0) {
         nextSpawnTime = gameLocal.GetTime() + initialWaveTime;
@@ -144,4 +145,21 @@ void MidtermUpdate()
 void MidtermUpdateHUD(idUserInterface* hud)
 {
     hud->SetStateInt("current_wave", wave);
+    hud->SetStateInt("strogg_hearts", stroggHearts);
+}
+
+void MidtermEnemyKilled(idEntity* attacker)
+{
+    const char* name = attacker->name.c_str();
+    gameLocal.Printf("AAAA\n");
+}
+
+void MidtermPause(const idCmdArgs &args)
+{
+    pause = !pause;
+}
+
+void MidtermSkipWave(const idCmdArgs &args)
+{
+    nextSpawnTime = gameLocal.GetTime()-1;
 }

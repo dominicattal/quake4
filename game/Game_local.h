@@ -321,11 +321,12 @@ class rvGravityArea;
 
 void MidtermInit();
 void MidtermUpdateHUD(idUserInterface* hud);
+void MidtermEnemyKilled(idEntity* attacker);
+void MidtermPause(const idCmdArgs &args);
+void MidtermSkipWave(const idCmdArgs &args);
 
 class idGameLocal : public idGame {
 public:
-    //Midterm
-    bool                    stopMidtermUpdate;
 
 	idDict					serverInfo;				// all the tunable parameters, like numclients, etc
 	int						numClients;				// pulled from serverInfo and verified

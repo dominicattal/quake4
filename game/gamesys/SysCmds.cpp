@@ -3074,10 +3074,6 @@ void Cmd_ClientOverflowReliable_f( const idCmdArgs& args ) {
 }
 #endif
 
-void Cmd_MidtermPause_f( const idCmdArgs& args ) {
-    gameLocal.stopMidtermUpdate = !gameLocal.stopMidtermUpdate;
-}
-
 /*
 =================
 idGameLocal::InitConsoleCommands
@@ -3274,8 +3270,8 @@ void idGameLocal::InitConsoleCommands( void ) {
 	cmdSystem->AddCommand( "buy",					Cmd_BuyItem_f,				CMD_FL_GAME,				"Buy an item (if in a buy zone and the game type supports it)" );
 // RITUAL END
 
-    cmdSystem->AddCommand("midpause", Cmd_MidtermPause_f, CMD_FL_GAME, "pauses midterm updates");
-
+    cmdSystem->AddCommand("midpause", MidtermPause, CMD_FL_GAME, "pauses midterm updates");
+    cmdSystem->AddCommand("skipwave", MidtermSkipWave, CMD_FL_GAME, "skips wave");
 }
 
 /*
