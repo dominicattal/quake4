@@ -64,6 +64,7 @@ const char* boss_enemies[] = {
 #define NUM_RARE_ENEMIES (sizeof(rare_enemies) / sizeof(const char*))
 #define NUM_BOSS_ENEMIES (sizeof(boss_enemies) / sizeof(const char*))
 
+int wave = 0;
 int nextSpawnTime = 0;
 
 void MidtermSpawn(idVec3 pos)
@@ -81,11 +82,11 @@ void MidtermSpawn(idVec3 pos)
 	} else {
         gameLocal.Printf("could not spawn '%s'\n", "monster");
     }
-
 }
 
 void MidtermInit()
 {
+    wave = 1;
 }
 
 void MidtermUpdate()
@@ -95,6 +96,11 @@ void MidtermUpdate()
     if (gameLocal.GetTime() > nextSpawnTime) {
         MidtermSpawn(positions[rand() % NUM_POSITIONS]);
         nextSpawnTime = gameLocal.GetTime() + 1000;
+        wave++;
     }
 }
 
+void MidtermUpdateHUD(idUserInterface* hud)
+{
+    hud->SetStateInt("current_wave", wave);
+}

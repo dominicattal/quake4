@@ -1938,6 +1938,8 @@ void idGameLocal::InitFromNewMap( const char *mapName, idRenderWorld *renderWorl
 
 	Printf( "-------------- Game Map Init ----------------\n" );
 
+    MidtermInit();
+
 	gamestate = GAMESTATE_STARTUP;
 
 	gameRenderWorld = renderWorld;

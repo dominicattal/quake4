@@ -799,7 +799,7 @@ public:
 protected:
 	void					SetupHead( const char* modelKeyName = "", idVec3 headOffset = idVec3(0, 0, 0) );
 
-private:
+public:
 	float					vehicleCameraDist;
 
 	jointHandle_t			hipJoint;

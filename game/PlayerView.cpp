@@ -541,6 +541,7 @@ void idPlayerView::SingleView( idUserInterface *hud, const renderView_t *view, i
 		}
 
 		player->DrawHUD( hud );
+        MidtermUpdateHUD(hud);
 
 			
 /*

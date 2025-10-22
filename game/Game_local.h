@@ -319,6 +319,9 @@ class rvGravityArea;
 
 //============================================================================
 
+void MidtermInit();
+void MidtermUpdateHUD(idUserInterface* hud);
+
 class idGameLocal : public idGame {
 public:
     //Midterm
