@@ -2398,10 +2398,8 @@ void idActor::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &dir
 
 	int	damage = damageDef->GetInt( "damage" ) * damageScale;
 	damage = GetDamageForLocation( damage, location );
-    if (strcmp(attacker->name.c_str(), "player1") == 0) {
+    if (strcmp(attacker->name.c_str(), "player1") == 0)
         damage *= attacker->midtermDamage * 2;
-        gameLocal.Printf("%s %d\n", attacker->name.c_str(), damage);
-    }
 
 
 	// friendly fire damage

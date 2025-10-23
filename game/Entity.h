@@ -117,7 +117,7 @@ public:
     double midtermDamage;
     double midtermSpeed;
     double midtermMaxHealth;
-    double midtermMaxShield;
+    double midtermHealthRegen;
     double midtermMagSize;
 
 	int						entityNumber;			// index into the entity list

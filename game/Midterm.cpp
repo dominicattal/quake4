@@ -66,6 +66,7 @@ const char* boss_enemies[] = {
 int wave = 0;
 int rareProb = 5;
 int nextSpawnTime = 0;
+int nextHealthRegenTime = 0;
 int waveTime = 60000;
 int initialWaveTime = 10000;
 int stroggHearts = 0;
@@ -79,7 +80,7 @@ typedef enum {
     MID_STATS_DAMAGE=0,     
     MID_STATS_SPEED,      
     MID_STATS_MAX_HEALTH, 
-    MID_STATS_MAX_SHIELD,
+    MID_STATS_HEALTH_REGEN,
     MID_STATS_MAG_SIZE,
     MID_NUM_PLAYER_STATS
 };
@@ -96,12 +97,13 @@ const char* playerStatsStr[5] = {
     "midterm_damage",
     "midterm_speed",
     "midterm_max_health",
-    "midterm_max_shield",
+    "midterm_health_regen",
     "midterm_mag_size"
 };
+
 // percent increase from base
 double classStats[MID_NUM_CLASSES][MID_NUM_PLAYER_STATS] = {
-    {1, 1, 1, 1, 1},
+    {1, 3, 1, 1, 1},
     {2, 2, 2, 2, 2}
 };
 
@@ -175,13 +177,26 @@ void MidtermLoadPlayerStats(idPlayer* player)
     player->midtermDamage       =   classStats[chosenClass][MID_STATS_DAMAGE];
     player->midtermSpeed        =   classStats[chosenClass][MID_STATS_SPEED];
     player->midtermMaxHealth    =   classStats[chosenClass][MID_STATS_MAX_HEALTH];
-    player->midtermMaxShield    =   classStats[chosenClass][MID_STATS_MAX_SHIELD];
+    player->midtermHealthRegen  =   classStats[chosenClass][MID_STATS_HEALTH_REGEN];
     player->midtermMagSize      =   classStats[chosenClass][MID_STATS_MAG_SIZE];
     playerStats[MID_STATS_DAMAGE]       = &player->midtermDamage;
     playerStats[MID_STATS_SPEED]        = &player->midtermSpeed;
     playerStats[MID_STATS_MAX_HEALTH]   = &player->midtermMaxHealth;
-    playerStats[MID_STATS_MAX_SHIELD]   = &player->midtermMaxShield;
+    playerStats[MID_STATS_HEALTH_REGEN] = &player->midtermHealthRegen;
     playerStats[MID_STATS_MAG_SIZE]     = &player->midtermMagSize;
+
+    player->inventory.maxHealth = 1000;
+    player->health = player->inventory.maxHealth;
+}
+
+void MidtermPlayerUpdate(idPlayer* player)
+{
+    if (gameLocal.GetTime() > nextHealthRegenTime) {
+        player->health += player->midtermHealthRegen;
+        if (player->health > player->inventory.maxHealth)
+            player->health = player->inventory.maxHealth;
+        nextHealthRegenTime = gameLocal.GetTime() + 1000;
+    }
 }
 
 void MidtermUpdate()
@@ -190,13 +205,17 @@ void MidtermUpdate()
         return;
 
     idPlayer* player = gameLocal.GetLocalPlayer();
-    if (player != NULL && !playerStatsLoaded) {
-        MidtermLoadPlayerStats(player);
-        playerStatsLoaded = true;
+    if (player != NULL) {
+        if (!playerStatsLoaded) {
+            MidtermLoadPlayerStats(player);
+            playerStatsLoaded = true;
+        }
+        MidtermPlayerUpdate(player);
     }
 
     if (nextSpawnTime == 0) {
         nextSpawnTime = gameLocal.GetTime() + initialWaveTime;
+        nextHealthRegenTime = gameLocal.GetTime();
     }
     if (gameLocal.GetTime() > nextSpawnTime) {
         MidtermSpawnWave();

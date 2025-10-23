@@ -338,6 +338,22 @@ windowDef Desktop
 		set "ViewComments::visible" "0";
 	}
 
+	onNamedEvent midtermShow {
+		set "mid_damage_t::forecolor_w" "1" ;
+		set "mid_speed_t::forecolor_w" "1" ;
+		set "mid_max_health_t::forecolor_w" "1";
+		set "mid_max_shield_t::forecolor_w" "1";
+		set "mid_mag_size_t::forecolor_w" "1";
+	}
+
+	onNamedEvent midtermHide {
+		set "mid_damage_t::forecolor_w" "0" ;
+		set "mid_speed_t::forecolor_w" "0" ;
+		set "mid_max_health_t::forecolor_w" "0";
+		set "mid_max_shield_t::forecolor_w" "0";
+		set "mid_mag_size_t::forecolor_w" "0";
+	}
+
 	windowDef ViewComments
 	{
 		rect	2, 5, 638, 200
@@ -597,7 +613,7 @@ windowDef Desktop
 		}
 		windowDef health_amount
 		{
-			rect	256,429,52,26
+			rect	199,429,109,26
 			visible	1
 			forecolor	0.866,0.921,0.764,1
 			text	"gui::player_health"
@@ -2154,20 +2170,6 @@ windowDef Desktop
 		textscale	1
 		textalign	2
 	}
-    onNamedEvent midtermShow {
-        set "mid_damage_t::forecolor_w" "1" ;
-        set "mid_speed_t::forecolor_w" "1" ;
-        set "mid_max_health_t::forecolor_w" "1";
-        set "mid_max_shield_t::forecolor_w" "1";
-        set "mid_mag_size_t::forecolor_w" "1";
-    }
-    onNamedEvent midtermHide {
-        set "mid_damage_t::forecolor_w" "0" ;
-        set "mid_speed_t::forecolor_w" "0" ;
-        set "mid_max_health_t::forecolor_w" "0";
-        set "mid_max_shield_t::forecolor_w" "0";
-        set "mid_mag_size_t::forecolor_w" "0";
-    }
 	windowDef div
 	{
 		rect	0,0,1000,1000
