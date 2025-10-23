@@ -117,9 +117,9 @@ const char* playerWeaponStr[5] = {
 // health regen - hp/s
 // mag size - percent increase
 double classStats[MID_NUM_CLASSES][MID_NUM_PLAYER_STATS] = {
-    {1.5, 1.5, 200, 2, 3},   //Gunner
+    {1.5, 1.5, 200, 2, 0.5},   //Gunner
     {2.5, 1, 125, 1, 0.5},   //Sniper
-    {1.5, 2.5, 150, 2, 2},   //Scout
+    {1.5, 2.5, 150, 2, 0.5},   //Scout
     {100, 2, 50, 1, 1},      //Assassin
     {1, 0.75, 500, 5, 3},    //Tank
 };
