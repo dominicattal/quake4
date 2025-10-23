@@ -91,7 +91,7 @@ typedef enum {
 };
 
 bool playerStatsLoaded;
-int* playerStats[5];
+double* playerStats[5];
 const char* playerStatsStr[5] = {
     "midterm_damage",
     "midterm_speed",
@@ -99,7 +99,8 @@ const char* playerStatsStr[5] = {
     "midterm_max_shield",
     "midterm_mag_size"
 };
-int classStats[MID_NUM_CLASSES][MID_NUM_PLAYER_STATS] = {
+// percent increase from base
+double classStats[MID_NUM_CLASSES][MID_NUM_PLAYER_STATS] = {
     {1, 1, 1, 1, 1},
     {2, 2, 2, 2, 2}
 };

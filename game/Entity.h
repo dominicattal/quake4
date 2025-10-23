@@ -113,6 +113,12 @@ public:
 
     // Midterm
     int stroggHearts;
+    int midtermPlayerClass;
+    double midtermDamage;
+    double midtermSpeed;
+    double midtermMaxHealth;
+    double midtermMaxShield;
+    double midtermMagSize;
 
 	int						entityNumber;			// index into the entity list
 	int						entityDefNumber;		// index into the entity def list

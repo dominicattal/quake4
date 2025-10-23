@@ -282,14 +282,6 @@ public:
 
 	friend class idThread;
 
-    // Midterm stats
-    int midtermPlayerClass;
-    int midtermDamage;
-    int midtermSpeed;
-    int midtermMaxHealth;
-    int midtermMaxShield;
-    int midtermMagSize;
-
 	usercmd_t				usercmd;
 
 	class idPlayerView		playerView;			// handles damage kicks and effects

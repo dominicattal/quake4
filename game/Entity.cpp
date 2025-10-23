@@ -3654,6 +3654,7 @@ void idEntity::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &di
 	}
 
 	int	damage = damageDef->GetInt( "damage" );
+    
 
 	// inform the attacker that they hit someone
 	attacker->DamageFeedback( this, inflictor, damage );
