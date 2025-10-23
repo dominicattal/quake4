@@ -324,6 +324,7 @@ void MidtermUpdateHUD(idUserInterface* hud);
 void MidtermEnemyKilled(idEntity* attacker);
 void MidtermPause(const idCmdArgs &args);
 void MidtermSkipWave(const idCmdArgs &args);
+void MidtermSetClipSize(const idCmdArgs &args);
 void MidtermTogglePlayerStats();
 
 class idGameLocal : public idGame {

@@ -653,7 +653,9 @@ void rvWeapon::Spawn ( void ) {
  	muzzleOffset		= weaponDef->dict.GetFloat ( "muzzleOffset", "14" );
 
 	// Ammo
+    defaultClipSize = spawnArgs.GetInt("clipSize");
 	clipSize			= spawnArgs.GetInt( "clipSize" );
+    clipSize *= owner->midtermClipSize;
 	ammoRequired		= spawnArgs.GetInt( "ammoRequired" );
 	lowAmmo				= spawnArgs.GetInt( "lowAmmo" );
 	ammoType			= GetAmmoIndexForName( spawnArgs.GetString( "ammoType" ) );
@@ -995,6 +997,10 @@ void rvWeapon::Think ( void ) {
 
 	// calculate weapon position based on player movement bobbing
 	owner->CalculateViewWeaponPos( viewModelOrigin, viewModelAxis );
+
+	clipSize = defaultClipSize * owner->midtermClipSize;
+    if (ammoClip > clipSize)
+        ammoClip = clipSize;
 
 	// hide offset is for dropping the gun when approaching a GUI or NPC
 	// This is simpler to manage than doing the weapon put-away animation

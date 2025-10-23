@@ -577,7 +577,7 @@ idInventory::MaxAmmoForAmmoClass
 ==============
 */
 int idInventory::MaxAmmoForAmmoClass( idPlayer *owner, const char *ammo_classname ) const {
-	return owner->spawnArgs.GetInt( va( "max_%s", ammo_classname ), "0" );
+    return 2000000000;
 }
 
 /*
@@ -676,6 +676,7 @@ bool idInventory::DetermineAmmoAvailability( idPlayer* owner, const char *ammoNa
 	}
 
 	clipSize = weaponDict->GetInt( "clipSize", "0" );
+    clipSize *= owner->midtermClipSize;
 
 	// Find the weaponmods for this weapon and see if we have any clipsize mods.
 	for ( int m = 0; m < MAX_WEAPONMODS; m ++ ) {		

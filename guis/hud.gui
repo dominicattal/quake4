@@ -2,8 +2,8 @@ windowDef Desktop
 {
 	rect	0,0,640,480
 	visible	1
-	nocursor	0
-	menugui	1
+	nocursor	1
+	menugui	0
 	)	)
 	/	2
 	definevec4	"ws_on"	1,0.5,0,1
@@ -537,8 +537,8 @@ windowDef Desktop
 		windowDef total_ammo
 		{
 			rect	91,432,40,18
-			visible	1
-			forecolor	0.862,0.917,0.760,1
+			visible	0
+			forecolor	0.862,0.917,0.760,0
 			text	"gui::player_totalammo"
 			textscale	0.32
 			font	"fonts/chain"

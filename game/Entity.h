@@ -118,7 +118,7 @@ public:
     double midtermSpeed;
     double midtermMaxHealth;
     double midtermHealthRegen;
-    double midtermMagSize;
+    double midtermClipSize;
 
 	int						entityNumber;			// index into the entity list
 	int						entityDefNumber;		// index into the entity def list

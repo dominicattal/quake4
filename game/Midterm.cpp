@@ -81,7 +81,7 @@ typedef enum {
     MID_STATS_SPEED,      
     MID_STATS_MAX_HEALTH, 
     MID_STATS_HEALTH_REGEN,
-    MID_STATS_MAG_SIZE,
+    MID_STATS_CLIP_SIZE,
     MID_NUM_PLAYER_STATS
 };
 
@@ -101,9 +101,13 @@ const char* playerStatsStr[5] = {
     "midterm_mag_size"
 };
 
-// percent increase from base
+// damage - percent increase
+// speed - percent increase
+// max health - fixed
+// health regen - hp/s
+// mag size - percent increase
 double classStats[MID_NUM_CLASSES][MID_NUM_PLAYER_STATS] = {
-    {1, 3, 1, 1, 1},
+    {1, 1.5, 200, 2, 3},
     {2, 2, 2, 2, 2}
 };
 
@@ -178,12 +182,12 @@ void MidtermLoadPlayerStats(idPlayer* player)
     player->midtermSpeed        =   classStats[chosenClass][MID_STATS_SPEED];
     player->midtermMaxHealth    =   classStats[chosenClass][MID_STATS_MAX_HEALTH];
     player->midtermHealthRegen  =   classStats[chosenClass][MID_STATS_HEALTH_REGEN];
-    player->midtermMagSize      =   classStats[chosenClass][MID_STATS_MAG_SIZE];
+    player->midtermClipSize      =   classStats[chosenClass][MID_STATS_CLIP_SIZE];
     playerStats[MID_STATS_DAMAGE]       = &player->midtermDamage;
     playerStats[MID_STATS_SPEED]        = &player->midtermSpeed;
     playerStats[MID_STATS_MAX_HEALTH]   = &player->midtermMaxHealth;
     playerStats[MID_STATS_HEALTH_REGEN] = &player->midtermHealthRegen;
-    playerStats[MID_STATS_MAG_SIZE]     = &player->midtermMagSize;
+    playerStats[MID_STATS_CLIP_SIZE]     = &player->midtermClipSize;
 
     player->inventory.maxHealth = 1000;
     player->health = player->inventory.maxHealth;
@@ -243,6 +247,7 @@ void MidtermUpdateHUD(idUserInterface* hud)
 void MidtermEnemyKilled(idEntity* enemy)
 {
     const char* name = enemy->name.c_str();
+    gameLocal.Printf("%s %d\n", name, enemy->stroggHearts);
     stroggHearts += enemy->stroggHearts;
 }
 
@@ -254,6 +259,14 @@ void MidtermPause(const idCmdArgs &args)
 void MidtermSkipWave(const idCmdArgs &args)
 {
     nextSpawnTime = gameLocal.GetTime()-1;
+}
+
+void MidtermSetClipSize(const idCmdArgs &args)
+{
+    if (args.Argc() == 1) 
+        return;
+    double clipSize = atof(args.Argv(1));
+    *(playerStats[MID_STATS_CLIP_SIZE]) = clipSize;
 }
 
 void MidtermTogglePlayerStats()
