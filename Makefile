@@ -26,7 +26,7 @@ env:
 	@echo BUILDDIR=$(MODDIR)
 	@echo MODDIR=$(BUILDDIR)
 
-quake4sucks:
+manual:
 	mkdir -p "stuff"
 	@zip -j "stuff/game000.pk4" "binary.conf" "stuff/Gamex86.dll"
 	@rm -f  "stuff/pak001.pk4"

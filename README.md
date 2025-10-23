@@ -14,7 +14,7 @@ BUILDDIR="path/to/build"
 
 Doesn't work if there are spaces in any of the fields
 
-Alternatively, run make quake4sucks to create a folder in this directory
+Alternatively, run `make manual` to create a folder in this directory
 
   ### RUN GAME
 
