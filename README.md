@@ -14,22 +14,24 @@ BUILDDIR="path/to/build"
 
 Doesn't work if there are spaces in any of the fields
 
-Alternatively, run `make manual` to create a folder in this directory
+Alternatively, run `make manual` to create a folder in this directory.
+Copy this folder into a folder inside the Quake 4 Installation folder named midterm
 
-  ### RUN GAME
+### RUN GAME
 
-  Assuming the .env is made correctly, type ./run in the terminal to run the mod.
+Assuming the .env is made correctly, type ./run in the terminal to run the mod.
 
-  ### HOW TO PLAY
+### HOW TO PLAY
 
-  Enemies spawn in endless waves.
-  Kill them for Strogg Hearts, which you can use to upgrade your player.
-  E - toggle stats viewer
-  F1 - upgrade damage
-  F2 - upgrade speed
-  F3 - upgrade max health
-  F4 - upgrade health regen
-  F5 - upgrade clip size
+There are several classes to pick, each with different stats.
+Enemies spawn in endless waves.
+Kill them for Strogg Hearts, which you can use to upgrade your player.
+E - toggle stats viewer
+F1 - upgrade damage
+F2 - upgrade speed
+F3 - upgrade max health
+F4 - upgrade health regen
+F5 - upgrade clip size
 
-  Game ends when you die
-  Boss spawns every 10 waves
+Game ends when you die
+Boss spawns every 10 waves
