@@ -2,8 +2,8 @@ windowDef Desktop
 {
 	rect	0,0,640,480
 	visible	1
-	nocursor	1
-	menugui	0
+	nocursor	0
+	menugui	1
 	)	)
 	/	2
 	definevec4	"ws_on"	1,0.5,0,1
@@ -2153,5 +2153,43 @@ windowDef Desktop
 		text	"gui::strogg_hearts"
 		textscale	1
 		textalign	2
+	}
+    onNamedEvent midtermShow {
+        set "mid_damage_t::forecolor_w" "1" ;
+        set "mid_speed_t::forecolor_w" "1" ;
+        set "mid_max_health_t::forecolor_w" "1";
+        set "mid_max_shield_t::forecolor_w" "1";
+        set "mid_mag_size_t::forecolor_w" "1";
+    }
+    onNamedEvent midtermHide {
+        set "mid_damage_t::forecolor_w" "0" ;
+        set "mid_speed_t::forecolor_w" "0" ;
+        set "mid_max_health_t::forecolor_w" "0";
+        set "mid_max_shield_t::forecolor_w" "0";
+        set "mid_mag_size_t::forecolor_w" "0";
+    }
+	windowDef div
+	{
+		rect	0,0,1000,1000
+		visible	1
+		windowDef mid_damage
+		{
+			rect	0,0,100,100
+			visible	1
+		}
+		windowDef mid_damage_t
+		{
+			rect	0,160,100,23
+			visible	1
+			forecolor	1,1,1,0
+			text	"Damage"
+			textscale	0.3
+			font	"fonts/chain"
+		}
+		windowDef mid_damage_minus_b
+		{
+			rect	1,178,22,14
+			visible	1
+		}
 	}
 }

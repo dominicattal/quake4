@@ -11,6 +11,7 @@ build:
 
 copy:
 	@zip -j "$(MODDIR)/game000.pk4" "binary.conf" "$(BUILDDIR)/Gamex86.dll"
+	@rm -f  "$(MODDIR)/pak001.pk4"
 	@zip -r "$(MODDIR)/pak001.pk4" "def" "guis" "maps" "scripts"
 	cp -r "strings" "$(MODDIR)" 
 

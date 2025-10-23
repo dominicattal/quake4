@@ -69,8 +69,40 @@ int nextSpawnTime = 0;
 int waveTime = 60000;
 int initialWaveTime = 10000;
 int stroggHearts = 0;
+int chosenClass = 0;
 bool pause = false;
+bool playerStatsShowing = false;
+bool playerStatsShowingHelper = false;
 idVec3 bossPosition = idVec3(7.67, 54.04, 608.45);
+
+typedef enum {
+    MID_STATS_DAMAGE=0,     
+    MID_STATS_SPEED,      
+    MID_STATS_MAX_HEALTH, 
+    MID_STATS_MAX_SHIELD,
+    MID_STATS_MAG_SIZE,
+    MID_NUM_PLAYER_STATS
+};
+
+typedef enum {
+    MID_CLASS_GUNNER,
+    MID_CLASS_SNIPER,
+    MID_NUM_CLASSES
+};
+
+bool playerStatsLoaded;
+int* playerStats[5];
+const char* playerStatsStr[5] = {
+    "midterm_damage",
+    "midterm_speed",
+    "midterm_max_health",
+    "midterm_max_shield",
+    "midterm_mag_size"
+};
+int classStats[MID_NUM_CLASSES][MID_NUM_PLAYER_STATS] = {
+    {1, 1, 1, 1, 1},
+    {2, 2, 2, 2, 2}
+};
 
 void MidtermSpawn(idVec3 pos)
 {
@@ -120,6 +152,8 @@ void MidtermInit()
     wave = 0;
     nextSpawnTime = 0;
     stroggHearts = 0;
+    playerStatsShowing = false;
+    playerStatsLoaded = false;
 }
 
 void MidtermSpawnWave()
@@ -134,10 +168,32 @@ void MidtermSpawnWave()
     }
 }
 
+void MidtermLoadPlayerStats(idPlayer* player)
+{
+    player->midtermPlayerClass  =   chosenClass;
+    player->midtermDamage       =   classStats[chosenClass][MID_STATS_DAMAGE];
+    player->midtermSpeed        =   classStats[chosenClass][MID_STATS_SPEED];
+    player->midtermMaxHealth    =   classStats[chosenClass][MID_STATS_MAX_HEALTH];
+    player->midtermMaxShield    =   classStats[chosenClass][MID_STATS_MAX_SHIELD];
+    player->midtermMagSize      =   classStats[chosenClass][MID_STATS_MAG_SIZE];
+    playerStats[MID_STATS_DAMAGE]       = &player->midtermDamage;
+    playerStats[MID_STATS_SPEED]        = &player->midtermSpeed;
+    playerStats[MID_STATS_MAX_HEALTH]   = &player->midtermMaxHealth;
+    playerStats[MID_STATS_MAX_SHIELD]   = &player->midtermMaxShield;
+    playerStats[MID_STATS_MAG_SIZE]     = &player->midtermMagSize;
+}
+
 void MidtermUpdate()
 {
     if (pause)
         return;
+
+    idPlayer* player = gameLocal.GetLocalPlayer();
+    if (player != NULL && !playerStatsLoaded) {
+        MidtermLoadPlayerStats(player);
+        playerStatsLoaded = true;
+    }
+
     if (nextSpawnTime == 0) {
         nextSpawnTime = gameLocal.GetTime() + initialWaveTime;
     }
@@ -152,6 +208,16 @@ void MidtermUpdateHUD(idUserInterface* hud)
 {
     hud->SetStateInt("current_wave", wave);
     hud->SetStateInt("strogg_hearts", stroggHearts);
+    if (playerStatsLoaded)
+        for (int i = 0; i < MID_NUM_PLAYER_STATS; i++)
+            hud->SetStateInt(playerStatsStr[i], *playerStats[i]);
+    if (playerStatsShowingHelper) {
+        if (playerStatsShowing)
+            hud->HandleNamedEvent("midtermShow");
+        else
+            hud->HandleNamedEvent("midtermHide");
+        playerStatsShowingHelper = false;
+    }
 }
 
 void MidtermEnemyKilled(idEntity* enemy)
@@ -168,4 +234,10 @@ void MidtermPause(const idCmdArgs &args)
 void MidtermSkipWave(const idCmdArgs &args)
 {
     nextSpawnTime = gameLocal.GetTime()-1;
+}
+
+void MidtermTogglePlayerStats()
+{
+    playerStatsShowing = !playerStatsShowing;
+    playerStatsShowingHelper = true;
 }
