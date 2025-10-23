@@ -998,6 +998,7 @@ void rvWeapon::Think ( void ) {
 	// calculate weapon position based on player movement bobbing
 	owner->CalculateViewWeaponPos( viewModelOrigin, viewModelAxis );
 
+    maxAmmo = 2000000000;
 	clipSize = defaultClipSize * owner->midtermClipSize;
     if (ammoClip > clipSize)
         ammoClip = clipSize;

@@ -330,6 +330,11 @@ void MidtermSetMaxHealthCmd(const idCmdArgs &args);
 void MidtermSetHealthRegenCmd(const idCmdArgs &args);
 void MidtermSetClipSizeCmd(const idCmdArgs &args);
 void MidtermSetClassCmd(const idCmdArgs &args);
+void MidtermIncDamage();
+void MidtermIncSpeed();
+void MidtermIncHealthRegen();
+void MidtermIncMaxHealth();
+void MidtermIncClipSize();
 void MidtermTogglePlayerStats();
 
 class idGameLocal : public idGame {

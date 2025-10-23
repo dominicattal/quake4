@@ -103,6 +103,13 @@ const char* playerStatsStr[5] = {
     "midterm_health_regen",
     "midterm_clip_size"
 };
+const char* playerWeaponStr[5] = {
+    "weapon_machinegun",
+    "weapon_railgun",
+    "weapon_shotgun",
+    "weapon_blaster",
+    "weapon_nailgun"
+};
 
 // damage - percent increase
 // speed - percent increase
@@ -113,7 +120,7 @@ double classStats[MID_NUM_CLASSES][MID_NUM_PLAYER_STATS] = {
     {1.5, 1.5, 200, 2, 3},   //Gunner
     {2.5, 1, 125, 1, 0.5},   //Sniper
     {1.5, 2.5, 150, 2, 2},   //Scout
-    {5, 2, 50, 1, 1},        //Assassin
+    {100, 2, 50, 1, 1},      //Assassin
     {1, 0.75, 500, 5, 3},    //Tank
 };
 
@@ -165,7 +172,7 @@ void MidtermInit()
     wave = 0;
     nextSpawnTime = 0;
     stroggHearts = 0;
-    playerStatsShowing = false;
+    playerStatsShowing = true;
     playerStatsLoaded = false;
 }
 
@@ -201,12 +208,19 @@ void MidtermLoadPlayerStats(idPlayer* player)
 
 void MidtermPlayerUpdate(idPlayer* player)
 {
+    for (int i = 0; i < MAX_AMMOTYPES; i++)
+        player->inventory.ammo[i] = 2000000000;
     if (gameLocal.GetTime() > nextHealthRegenTime) {
         player->health += player->midtermHealthRegen;
         if (player->health > player->inventory.maxHealth)
             player->health = player->inventory.maxHealth;
         nextHealthRegenTime = gameLocal.GetTime() + 1000;
     }
+}
+
+void MidtermGivePlayerWeapon(idPlayer* player)
+{
+    player->GiveItem(playerWeaponStr[chosenClass]);
 }
 
 void MidtermUpdate()
@@ -217,6 +231,7 @@ void MidtermUpdate()
     idPlayer* player = gameLocal.GetLocalPlayer();
     if (player != NULL) {
         if (!playerStatsLoaded) {
+            MidtermGivePlayerWeapon(player);
             MidtermLoadPlayerStats(player);
             playerStatsLoaded = true;
         }
@@ -240,7 +255,7 @@ void MidtermUpdateHUD(idUserInterface* hud)
     hud->SetStateInt("strogg_hearts", stroggHearts);
     if (playerStatsLoaded)
         for (int i = 0; i < MID_NUM_PLAYER_STATS; i++)
-            hud->SetStateInt(playerStatsStr[i], *playerStats[i]);
+            hud->SetStateFloat(playerStatsStr[i], *playerStats[i]);
     if (playerStatsShowingHelper) {
         if (playerStatsShowing)
             hud->HandleNamedEvent("midtermShow");
@@ -325,4 +340,34 @@ void MidtermTogglePlayerStats()
 {
     playerStatsShowing = !playerStatsShowing;
     playerStatsShowingHelper = true;
+}
+void MidtermIncDamage()
+{
+    if (stroggHearts <= 0) return;
+    stroggHearts--;
+    *playerStats[MID_STATS_DAMAGE] += 1;
+}
+void MidtermIncSpeed()
+{
+    if (stroggHearts <= 0) return;
+    stroggHearts--;
+    *playerStats[MID_STATS_SPEED] += 0.1;
+}
+void MidtermIncHealthRegen()
+{
+    if (stroggHearts <= 0) return;
+    stroggHearts--;
+    *playerStats[MID_STATS_HEALTH_REGEN] += 1;
+}
+void MidtermIncMaxHealth()
+{
+    if (stroggHearts <= 0) return;
+    stroggHearts--;
+    *playerStats[MID_STATS_MAX_HEALTH] += 10;
+}
+void MidtermIncClipSize()
+{
+    if (stroggHearts <= 0) return;
+    stroggHearts--;
+    *playerStats[MID_STATS_CLIP_SIZE] += 0.25;
 }

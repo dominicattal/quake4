@@ -577,7 +577,7 @@ idInventory::MaxAmmoForAmmoClass
 ==============
 */
 int idInventory::MaxAmmoForAmmoClass( idPlayer *owner, const char *ammo_classname ) const {
-    return 2000000000000;
+    return 2000000000;
 }
 
 /*
@@ -8555,13 +8555,12 @@ void idPlayer::PerformImpulse( int impulse ) {
             MidtermTogglePlayerStats();
             break;
         }
+        case IMPULSE_24: MidtermIncDamage(); break;
+        case IMPULSE_25: MidtermIncSpeed(); break;
+        case IMPULSE_26: MidtermIncMaxHealth(); break;
+        case IMPULSE_27: MidtermIncHealthRegen(); break;
+        case IMPULSE_28: MidtermIncClipSize(); break;
 				
-		case IMPULSE_28: {
- 			if ( gameLocal.isClient || entityNumber == gameLocal.localClientNum ) {
- 				gameLocal.mpGame.CastVote( gameLocal.localClientNum, true );
-   			}
-   			break;
-   		}
    		case IMPULSE_29: {
  			if ( gameLocal.isClient || entityNumber == gameLocal.localClientNum ) {
 				gameLocal.mpGame.CastVote( gameLocal.localClientNum, false );
@@ -8586,11 +8585,13 @@ void idPlayer::PerformImpulse( int impulse ) {
 		case IMPULSE_108:	break; // Unused
 		case IMPULSE_109:	AttemptToBuyItem( "weapon_napalmgun" );				break;
 		case IMPULSE_110:	/* AttemptToBuyItem( "weapon_dmg" );*/				break;
-		case IMPULSE_111:	break; // Unused
-		case IMPULSE_112:	break; // Unused
-		case IMPULSE_113:	break; // Unused
-		case IMPULSE_114:	break; // Unused
-		case IMPULSE_115:	break; // Unused
+		case IMPULSE_111:
+            MidtermIncDamage();
+            break;
+		case IMPULSE_112:	MidtermIncSpeed(); break; // Unused
+		case IMPULSE_113:	MidtermIncMaxHealth(); break; // Unused
+		case IMPULSE_114:	MidtermIncHealthRegen();break; // Unused
+		case IMPULSE_115:	MidtermIncClipSize(); break; // Unused
 		case IMPULSE_116:	break; // Unused
 		case IMPULSE_117:	break; // Unused
 		case IMPULSE_118:	AttemptToBuyItem( "item_armor_small" );				break;
