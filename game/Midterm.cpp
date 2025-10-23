@@ -212,6 +212,7 @@ void MidtermPlayerUpdate(idPlayer* player)
         player->inventory.ammo[i] = 2000000000;
     static double carry;
     double a;
+    gameLocal.Printf("%d\n", player->inventory.maxHealth);
     if (gameLocal.GetTime() > nextHealthRegenTime) {
         player->health += player->midtermHealthRegen;
         carry += modf(player->midtermHealthRegen, &a);
@@ -219,6 +220,7 @@ void MidtermPlayerUpdate(idPlayer* player)
             player->health += 1;
             carry -= 1;
         }
+        player->inventory.maxHealth = player->midtermMaxHealth;
         if (player->health > player->inventory.maxHealth)
             player->health = player->inventory.maxHealth;
         nextHealthRegenTime = gameLocal.GetTime() + 1000;
