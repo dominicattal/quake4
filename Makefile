@@ -26,6 +26,13 @@ env:
 	@echo BUILDDIR=$(MODDIR)
 	@echo MODDIR=$(BUILDDIR)
 
+quake4sucks:
+	mkdir -p "stuff"
+	@zip -j "stuff/game000.pk4" "binary.conf" "stuff/Gamex86.dll"
+	@rm -f  "stuff/pak001.pk4"
+	@zip -r "stuff/pak001.pk4" "def" "guis" "maps" "scripts"
+	cp -r "strings" "stuff" 
+
 
 .PHONY: release debug
 

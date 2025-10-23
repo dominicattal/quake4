@@ -1876,7 +1876,7 @@ windowDef Desktop
 				rect	40,125,481,219
 				visible	1
 				forecolor	1,1,1,1
-				text	"Kill enemies. Don't get hit. Get powerups. Kill bosses."
+				text	"Choose a class, each class has different stats. Enemies spawn in waves and drop Strogg Hearts, which you can use to upgrade your player. E - open stats F1 - upgrade damage F2 - upgrade speed F3 - upgrade max health F4 - upgrade health regen F5 - upgrade clip size"
 				textscale	0.33
 				font	"fonts/marine"
 			}

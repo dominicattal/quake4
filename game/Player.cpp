@@ -577,7 +577,7 @@ idInventory::MaxAmmoForAmmoClass
 ==============
 */
 int idInventory::MaxAmmoForAmmoClass( idPlayer *owner, const char *ammo_classname ) const {
-    return 2000000000;
+    return 2000000000000;
 }
 
 /*

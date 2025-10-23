@@ -2,8 +2,8 @@ windowDef Desktop
 {
 	rect	0,0,640,480
 	visible	1
-	nocursor	1
-	menugui	0
+	nocursor	0
+	menugui	1
 	)	)
 	/	2
 	definevec4	"ws_on"	1,0.5,0,1
@@ -339,19 +339,29 @@ windowDef Desktop
 	}
 
 	onNamedEvent midtermShow {
+        set "mid_damage::forecolor_w" "1" ;
 		set "mid_damage_t::forecolor_w" "1" ;
-		set "mid_speed_t::forecolor_w" "1" ;
-		set "mid_max_health_t::forecolor_w" "1";
-		set "mid_max_shield_t::forecolor_w" "1";
-		set "mid_mag_size_t::forecolor_w" "1";
+        set "mid_damage1::forecolor_w" "1" ;
+		set "mid_damage_t1::forecolor_w" "1" ;
+        set "mid_damage2::forecolor_w" "1" ;
+		set "mid_damage_t2::forecolor_w" "1" ;
+        set "mid_damage3::forecolor_w" "1" ;
+		set "mid_damage_t3::forecolor_w" "1" ;
+        set "mid_damage4::forecolor_w" "1" ;
+		set "mid_damage_t4::forecolor_w" "1" ;
 	}
 
 	onNamedEvent midtermHide {
+        set "mid_damage::forecolor_w" "0" ;
 		set "mid_damage_t::forecolor_w" "0" ;
-		set "mid_speed_t::forecolor_w" "0" ;
-		set "mid_max_health_t::forecolor_w" "0";
-		set "mid_max_shield_t::forecolor_w" "0";
-		set "mid_mag_size_t::forecolor_w" "0";
+        set "mid_damage1::forecolor_w" "0" ;
+		set "mid_damage_t1::forecolor_w" "0" ;
+        set "mid_damage2::forecolor_w" "0" ;
+		set "mid_damage_t2::forecolor_w" "0" ;
+        set "mid_damage3::forecolor_w" "0" ;
+		set "mid_damage_t3::forecolor_w" "0" ;
+        set "mid_damage4::forecolor_w" "0" ;
+		set "mid_damage_t4::forecolor_w" "0" ;
 	}
 
 	windowDef ViewComments
@@ -2176,22 +2186,93 @@ windowDef Desktop
 		visible	1
 		windowDef mid_damage
 		{
-			rect	0,0,100,100
+			rect	120,160,100,23
 			visible	1
+			forecolor	1,1,1,1
+			text	"gui::midterm_damage"
+			textscale	0.3
+			font	"fonts/marine"
 		}
 		windowDef mid_damage_t
 		{
 			rect	0,160,100,23
 			visible	1
-			forecolor	1,1,1,0
+			forecolor	1,1,1,1
 			text	"Damage"
 			textscale	0.3
 			font	"fonts/chain"
 		}
-		windowDef mid_damage_minus_b
-		{
-			rect	1,178,22,14
-			visible	1
-		}
+	}
+	windowDef mid_damage1
+	{
+		rect	120,180,100,23
+		visible	1
+		forecolor	1,1,1,1
+		text	"gui::midterm_speed"
+		textscale	0.3
+		font	"fonts/marine"
+	}
+	windowDef mid_damage_t1
+	{
+		rect	0,183,100,23
+		visible	1
+		forecolor	1,1,1,1
+		text	"Speed"
+		textscale	0.3
+		font	"fonts/chain"
+	}
+	windowDef mid_damage2
+	{
+		rect	120,203,100,23
+		visible	1
+		forecolor	1,1,1,1
+		text	"gui::midterm_max_health"
+		textscale	0.3
+		font	"fonts/marine"
+	}
+	windowDef mid_damage_t2
+	{
+		rect	0,204,100,23
+		visible	1
+		forecolor	1,1,1,1
+		text	"Max Health"
+		textscale	0.3
+		font	"fonts/chain"
+	}
+	windowDef mid_damage3
+	{
+		rect	120,223,100,23
+		visible	1
+		forecolor	1,1,1,1
+		text	"gui::midterm_health_regen"
+		textscale	0.3
+		font	"fonts/marine"
+	}
+	windowDef mid_damage_t3
+	{
+		rect	0,224,100,23
+		visible	1
+		forecolor	1,1,1,1
+		text	"HealthRegen"
+		textscale	0.3
+		font	"fonts/chain"
+	}
+	windowDef mid_damage4
+	{
+		rect	121,242,100,23
+		visible	1
+		forecolor	1,1,1,1
+		text	"gui::midterm_clip_size"
+		textscale	0.3
+		font	"fonts/marine"
+	}
+	windowDef mid_damage_t4
+	{
+		rect	0,245,100,23
+		visible	1
+		forecolor	1,1,1,1
+		text	"Clip Size"
+		textscale	0.3
+		font	"fonts/chain"
 	}
 }

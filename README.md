@@ -14,10 +14,22 @@ BUILDDIR="path/to/build"
 
 Doesn't work if there are spaces in any of the fields
 
+Alternatively, run make quake4sucks to create a folder in this directory
+
   ### RUN GAME
 
   Assuming the .env is made correctly, type ./run in the terminal to run the mod.
 
   ### HOW TO PLAY
 
-  TBD
+  Enemies spawn in endless waves.
+  Kill them for Strogg Hearts, which you can use to upgrade your player.
+  E - toggle stats viewer
+  F1 - upgrade damage
+  F2 - upgrade speed
+  F3 - upgrade max health
+  F4 - upgrade health regen
+  F5 - upgrade clip size
+
+  Game ends when you die
+  Boss spawns every 10 waves

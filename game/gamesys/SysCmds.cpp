@@ -3272,6 +3272,10 @@ void idGameLocal::InitConsoleCommands( void ) {
 
     cmdSystem->AddCommand("midpause", MidtermPause, CMD_FL_GAME, "pauses midterm updates");
     cmdSystem->AddCommand("skipwave", MidtermSkipWave, CMD_FL_GAME, "skips wave");
+    cmdSystem->AddCommand("setdamage", MidtermSetDamageCmd, CMD_FL_GAME, "sets clip size");
+    cmdSystem->AddCommand("setspeed", MidtermSetSpeedCmd, CMD_FL_GAME, "sets clip size");
+    cmdSystem->AddCommand("setmaxhealth", MidtermSetMaxHealthCmd, CMD_FL_GAME, "sets clip size");
+    cmdSystem->AddCommand("sethealthregen", MidtermSetHealthRegenCmd, CMD_FL_GAME, "sets clip size");
     cmdSystem->AddCommand("setclipsize", MidtermSetClipSizeCmd, CMD_FL_GAME, "sets clip size");
     cmdSystem->AddCommand("setclass", MidtermSetClassCmd, CMD_FL_GAME, "sets class");
 }

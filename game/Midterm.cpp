@@ -101,7 +101,7 @@ const char* playerStatsStr[5] = {
     "midterm_speed",
     "midterm_max_health",
     "midterm_health_regen",
-    "midterm_mag_size"
+    "midterm_clip_size"
 };
 
 // damage - percent increase
@@ -253,7 +253,6 @@ void MidtermUpdateHUD(idUserInterface* hud)
 void MidtermEnemyKilled(idEntity* enemy)
 {
     const char* name = enemy->name.c_str();
-    gameLocal.Printf("%s %d\n", name, enemy->stroggHearts);
     stroggHearts += enemy->stroggHearts;
 }
 
@@ -288,15 +287,39 @@ void MidtermSetSpeed(double speed)
     *playerStats[MID_STATS_SPEED] = speed;
 }
 
+void MidtermSetClassCmd(const idCmdArgs &args)
+{
+    chosenClass = atoi(args.Argv(1));
+}
+void MidtermSetDamageCmd(const idCmdArgs &args)
+{
+    if (args.Argc() == 1) 
+        return;
+    MidtermSetDamage(atof(args.Argv(1)));
+}
+void MidtermSetSpeedCmd(const idCmdArgs &args)
+{
+    if (args.Argc() == 1) 
+        return;
+    MidtermSetSpeed(atof(args.Argv(1)));
+}
+void MidtermSetMaxHealthCmd(const idCmdArgs &args)
+{
+    if (args.Argc() == 1) 
+        return;
+    MidtermSetMaxHealth(atof(args.Argv(1)));
+}
+void MidtermSetHealthRegenCmd(const idCmdArgs &args)
+{
+    if (args.Argc() == 1) 
+        return;
+    MidtermSetHealthRegen(atof(args.Argv(1)));
+}
 void MidtermSetClipSizeCmd(const idCmdArgs &args)
 {
     if (args.Argc() == 1) 
         return;
     MidtermSetClipSize(atof(args.Argv(1)));
-}
-void MidtermSetClassCmd(const idCmdArgs &args)
-{
-    chosenClass = atoi(args.Argv(1));
 }
 void MidtermTogglePlayerStats()
 {
