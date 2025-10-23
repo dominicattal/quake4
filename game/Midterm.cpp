@@ -88,6 +88,9 @@ typedef enum {
 typedef enum {
     MID_CLASS_GUNNER,
     MID_CLASS_SNIPER,
+    MID_CLASS_SCOUT,
+    MID_CLASS_ASSASSIN,
+    MID_CLASS_TANK,
     MID_NUM_CLASSES
 };
 
@@ -107,8 +110,11 @@ const char* playerStatsStr[5] = {
 // health regen - hp/s
 // mag size - percent increase
 double classStats[MID_NUM_CLASSES][MID_NUM_PLAYER_STATS] = {
-    {1, 1.5, 200, 2, 3},
-    {2, 2, 2, 2, 2}
+    {1.5, 1.5, 200, 2, 3},   //Gunner
+    {2.5, 1, 125, 1, 0.5},   //Sniper
+    {1.5, 2.5, 150, 2, 2},   //Scout
+    {5, 2, 50, 1, 1},        //Assassin
+    {1, 0.75, 500, 5, 3},    //Tank
 };
 
 void MidtermSpawn(idVec3 pos)
@@ -182,14 +188,14 @@ void MidtermLoadPlayerStats(idPlayer* player)
     player->midtermSpeed        =   classStats[chosenClass][MID_STATS_SPEED];
     player->midtermMaxHealth    =   classStats[chosenClass][MID_STATS_MAX_HEALTH];
     player->midtermHealthRegen  =   classStats[chosenClass][MID_STATS_HEALTH_REGEN];
-    player->midtermClipSize      =   classStats[chosenClass][MID_STATS_CLIP_SIZE];
+    player->midtermClipSize     =   classStats[chosenClass][MID_STATS_CLIP_SIZE];
     playerStats[MID_STATS_DAMAGE]       = &player->midtermDamage;
     playerStats[MID_STATS_SPEED]        = &player->midtermSpeed;
     playerStats[MID_STATS_MAX_HEALTH]   = &player->midtermMaxHealth;
     playerStats[MID_STATS_HEALTH_REGEN] = &player->midtermHealthRegen;
-    playerStats[MID_STATS_CLIP_SIZE]     = &player->midtermClipSize;
+    playerStats[MID_STATS_CLIP_SIZE]    = &player->midtermClipSize;
 
-    player->inventory.maxHealth = 1000;
+    player->inventory.maxHealth = player->midtermMaxHealth;
     player->health = player->inventory.maxHealth;
 }
 
@@ -261,14 +267,37 @@ void MidtermSkipWave(const idCmdArgs &args)
     nextSpawnTime = gameLocal.GetTime()-1;
 }
 
-void MidtermSetClipSize(const idCmdArgs &args)
+void MidtermSetClipSize(double clipSize)
+{
+    *playerStats[MID_STATS_CLIP_SIZE] = clipSize;
+}
+void MidtermSetMaxHealth(double maxHealth)
+{
+    *playerStats[MID_STATS_MAX_HEALTH] = maxHealth;
+}
+void MidtermSetHealthRegen(double healthRegen)
+{
+    *playerStats[MID_STATS_HEALTH_REGEN] = healthRegen;
+}
+void MidtermSetDamage(double damage)
+{
+    *playerStats[MID_STATS_DAMAGE] = damage;
+}
+void MidtermSetSpeed(double speed)
+{
+    *playerStats[MID_STATS_SPEED] = speed;
+}
+
+void MidtermSetClipSizeCmd(const idCmdArgs &args)
 {
     if (args.Argc() == 1) 
         return;
-    double clipSize = atof(args.Argv(1));
-    *(playerStats[MID_STATS_CLIP_SIZE]) = clipSize;
+    MidtermSetClipSize(atof(args.Argv(1)));
 }
-
+void MidtermSetClassCmd(const idCmdArgs &args)
+{
+    chosenClass = atoi(args.Argv(1));
+}
 void MidtermTogglePlayerStats()
 {
     playerStatsShowing = !playerStatsShowing;

@@ -36,7 +36,7 @@ windowDef Desktop
 	float	"sort"	0
 	float	"loaddefaults"	0
 	float	"com_machineSpec"	0
-	float	"skill"	1
+	float	"skill"	0
 	float	"tooltip_x"	0
 	float	"tooltip_y"	0
 	float	"tooltip_w"	0
@@ -19520,7 +19520,7 @@ windowDef Desktop
 
 			onAction {
 				set "desktop::skill" "0" ;
-				consoleCMD "g_skill 0" ;
+				consoleCMD "setclass 0" ;
 				namedevent "p_btns::showNew" ;
 				namedevent "p_btns::skillCheck" ;
 				
@@ -19555,7 +19555,7 @@ windowDef Desktop
 
 			onAction {
 				set "desktop::skill" "1" ;
-				consoleCMD "g_skill 1" ;
+				consoleCMD "setclass 1" ;
 				namedevent "p_btns::showNew" ;
 				namedevent "p_btns::skillCheck" ;
 				
@@ -19590,7 +19590,7 @@ windowDef Desktop
 
 			onAction {
 				set "desktop::skill" "2" ;
-				consoleCMD "g_skill 2" ;
+				consoleCMD "setclass 2" ;
 				namedevent "p_btns::showNew" ;
 				namedevent "p_btns::skillCheck" ;
 				
@@ -19625,7 +19625,7 @@ windowDef Desktop
 
 			onAction {
 				set "desktop::skill" "3" ;
-				consoleCMD "g_skill 3" ;
+				consoleCMD "setclass 3" ;
 				namedevent "p_btns::showNew" ;
 				namedevent "p_btns::skillCheck" ;
 				
@@ -19660,7 +19660,7 @@ windowDef Desktop
 
 			onAction {
 				set "desktop::skill" "4" ;
-				consoleCMD "g_skill 4" ;
+				consoleCMD "setclass 4" ;
 				namedevent "p_btns::showNew" ;
 				namedevent "p_btns::skillCheck" ;
 				
@@ -19698,9 +19698,7 @@ windowDef Desktop
 			}
 
 			onAction {
-				consoleCMD "map game/airdefense1" ;
-				
-				set "cmd" "play main_menu_selection" ;
+				consoleCMD "map game/midterm" ;
 			}
 
 		}
