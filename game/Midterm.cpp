@@ -117,11 +117,11 @@ const char* playerWeaponStr[5] = {
 // health regen - hp/s
 // mag size - percent increase
 double classStats[MID_NUM_CLASSES][MID_NUM_PLAYER_STATS] = {
-    {1.5, 1.5, 200, 2, 0.5},   //Gunner
-    {2.5, 1, 125, 1, 0.5},   //Sniper
-    {1.5, 2.5, 150, 2, 0.5},   //Scout
+    {1, 1.5, 200, 2, 0.5},   //Gunner
+    {2, 1.2, 125, 1, 0.5},   //Sniper
+    {1, 2.5, 150, 2, 0.5},   //Scout
     {100, 2, 50, 1, 1},      //Assassin
-    {1, 0.75, 500, 5, 3},    //Tank
+    {0.8, 0.7, 500, 5, 3},    //Tank
 };
 
 void MidtermSpawn(idVec3 pos)
@@ -210,8 +210,15 @@ void MidtermPlayerUpdate(idPlayer* player)
 {
     for (int i = 0; i < MAX_AMMOTYPES; i++)
         player->inventory.ammo[i] = 2000000000;
+    static double carry;
+    double a;
     if (gameLocal.GetTime() > nextHealthRegenTime) {
         player->health += player->midtermHealthRegen;
+        carry += modf(player->midtermHealthRegen, &a);
+        if (carry > 1) {
+            player->health += 1;
+            carry -= 1;
+        }
         if (player->health > player->inventory.maxHealth)
             player->health = player->inventory.maxHealth;
         nextHealthRegenTime = gameLocal.GetTime() + 1000;
@@ -345,7 +352,7 @@ void MidtermIncDamage()
 {
     if (stroggHearts <= 0) return;
     stroggHearts--;
-    *playerStats[MID_STATS_DAMAGE] += 1;
+    *playerStats[MID_STATS_DAMAGE] += 0.1;
 }
 void MidtermIncSpeed()
 {
@@ -357,7 +364,7 @@ void MidtermIncHealthRegen()
 {
     if (stroggHearts <= 0) return;
     stroggHearts--;
-    *playerStats[MID_STATS_HEALTH_REGEN] += 1;
+    *playerStats[MID_STATS_HEALTH_REGEN] += 0.2;
 }
 void MidtermIncMaxHealth()
 {
