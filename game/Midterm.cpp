@@ -178,7 +178,7 @@ void MidtermInit()
 
 void MidtermSpawnWave()
 {
-    if (wave % 10 == 0 && wave != 0) {
+    if (wave % 10 == 9 && wave != 0) {
         MidtermSpawnBoss();
         waveTime = 90000;
     }

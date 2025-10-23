@@ -13,6 +13,7 @@ copy:
 	@zip -j "$(MODDIR)/game000.pk4" "binary.conf" "$(BUILDDIR)/Gamex86.dll"
 	@rm -f  "$(MODDIR)/pak001.pk4"
 	@zip -r "$(MODDIR)/pak001.pk4" "def" "guis" "maps" "scripts"
+	cp -r "Quake4Config.cfg" "$(MODDIR)"
 	cp -r "strings" "$(MODDIR)" 
 
 release: moddir build copy
@@ -31,8 +32,8 @@ manual:
 	@zip -j "stuff/game000.pk4" "binary.conf" "stuff/Gamex86.dll"
 	@rm -f  "stuff/pak001.pk4"
 	@zip -r "stuff/pak001.pk4" "def" "guis" "maps" "scripts"
+	cp -r "Quake4Config.cfg" "stuff"
 	cp -r "strings" "stuff" 
-
 
 .PHONY: release debug
 
